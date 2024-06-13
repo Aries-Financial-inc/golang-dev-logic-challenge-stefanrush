@@ -1,0 +1,10 @@
+version: "3"
+services:
+  kv:
+    image: eqalpha/keydb:alpine
+    volumes:
+      - kv:/data
+    ports:
+      - 6379:6379
+volumes:
+  kv:
