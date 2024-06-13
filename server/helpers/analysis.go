@@ -31,14 +31,14 @@ func AnalyzeContract(contract *models.OptionsContract) *models.AnalysisResult {
 }
 
 const (
-	stockPriceRangeInterval  float64 = 1
-	stockPriceRangeMultipler float64 = 0.5
+	stockPriceRangeInterval float64 = 1
+	stockPriceRangeWindow   float64 = 0.5
 )
 
 // analyzeLongCall runs a profit/loss analysis on a long call contract
 func analyzeLongCall(contract *models.OptionsContract) *models.AnalysisResult {
-	stock_price_range_start := math.Floor(contract.StrikePrice * stockPriceRangeMultipler)
-	stock_price_range_end := math.Ceil(contract.StrikePrice / stockPriceRangeMultipler)
+	stock_price_range_start := math.Floor(contract.StrikePrice * stockPriceRangeWindow)
+	stock_price_range_end := math.Ceil(contract.StrikePrice / stockPriceRangeWindow)
 
 	analyze := func(purchase_price float64) ([]models.XYPoint, models.PLData) {
 		graphData := []models.XYPoint{}
@@ -80,8 +80,8 @@ func analyzeLongCall(contract *models.OptionsContract) *models.AnalysisResult {
 
 // analyzeShortCall runs a profit/loss analysis on a short call contract
 func analyzeShortCall(contract *models.OptionsContract) *models.AnalysisResult {
-	stock_price_range_start := math.Floor(contract.StrikePrice * stockPriceRangeMultipler)
-	stock_price_range_end := math.Ceil(contract.StrikePrice / stockPriceRangeMultipler)
+	stock_price_range_start := math.Floor(contract.StrikePrice * stockPriceRangeWindow)
+	stock_price_range_end := math.Ceil(contract.StrikePrice / stockPriceRangeWindow)
 
 	analyze := func(purchase_price float64) ([]models.XYPoint, models.PLData) {
 		graphData := []models.XYPoint{}
@@ -123,8 +123,8 @@ func analyzeShortCall(contract *models.OptionsContract) *models.AnalysisResult {
 
 // analyzeLongPut runs a profit/loss analysis on a long put contract
 func analyzeLongPut(contract *models.OptionsContract) *models.AnalysisResult {
-	stock_price_range_start := math.Floor(contract.StrikePrice * stockPriceRangeMultipler)
-	stock_price_range_end := math.Ceil(contract.StrikePrice / stockPriceRangeMultipler)
+	stock_price_range_start := math.Floor(contract.StrikePrice * stockPriceRangeWindow)
+	stock_price_range_end := math.Ceil(contract.StrikePrice / stockPriceRangeWindow)
 
 	analyze := func(purchase_price float64) ([]models.XYPoint, models.PLData) {
 		graphData := []models.XYPoint{}
@@ -166,8 +166,8 @@ func analyzeLongPut(contract *models.OptionsContract) *models.AnalysisResult {
 
 // analyzeShortPut runs a profit/loss analysis on a short put contract
 func analyzeShortPut(contract *models.OptionsContract) *models.AnalysisResult {
-	stock_price_range_start := math.Floor(contract.StrikePrice * stockPriceRangeMultipler)
-	stock_price_range_end := math.Ceil(contract.StrikePrice / stockPriceRangeMultipler)
+	stock_price_range_start := math.Floor(contract.StrikePrice * stockPriceRangeWindow)
+	stock_price_range_end := math.Ceil(contract.StrikePrice / stockPriceRangeWindow)
 
 	analyze := func(purchase_price float64) ([]models.XYPoint, models.PLData) {
 		graphData := []models.XYPoint{}

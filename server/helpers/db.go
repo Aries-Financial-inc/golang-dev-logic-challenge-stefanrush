@@ -22,18 +22,18 @@ func SaveContractAnalysis(contract *models.OptionsContract) error {
 
 	contractJSON, err := json.Marshal(contract)
 	if err != nil {
-		return fmt.Errorf("Error marshalling contract: %v", err)
+		return err
 	}
 
 	if err := db.Set(ctx, key, contractJSON, 0).Err(); err != nil {
-		return fmt.Errorf("Error saving contract analysis: %v", err)
+		return err
 	}
 
 	return nil
 }
 
-// GetContractAnalysis retrieves the options contract with the given ID from the database
-func GetContractAnalysis(contractID string) (*models.OptionsContract, error) {
+// RetrieveContractAnalysis retrieves the options contract with the given ID from the database
+func RetrieveContractAnalysis(contractID string) (*models.OptionsContract, error) {
 	db := redis.NewClient(&redis.Options{Addr: dbDSN})
 
 	key := fmt.Sprintf("contract:%s", contractID)
@@ -42,11 +42,11 @@ func GetContractAnalysis(contractID string) (*models.OptionsContract, error) {
 
 	val, err := db.Get(ctx, key).Result()
 	if err != nil {
-		return nil, fmt.Errorf("Error getting contract analysis: %v", err)
+		return nil, err
 	}
 
 	if err := json.Unmarshal([]byte(val), contract); err != nil {
-		return nil, fmt.Errorf("Error unmarshalling contract: %v", err)
+		return nil, err
 	}
 
 	return contract, nil

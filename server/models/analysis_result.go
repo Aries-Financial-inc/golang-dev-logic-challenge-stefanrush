@@ -15,7 +15,7 @@ type PLData struct {
 	BreakEvenPoint float64 `json:"break_even_point"`
 }
 
-// A XYPoint contains an x and y coordinate
+// An XYPoint contains an x and y coordinate
 type XYPoint struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`

@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// An OptionsContract represents an options contract
+// An OptionsContract contains an options contract along with its analysis result
 type OptionsContract struct {
 	ID             uuid.UUID        `json:"id"`
 	Type           OptionsType      `json:"type"`
