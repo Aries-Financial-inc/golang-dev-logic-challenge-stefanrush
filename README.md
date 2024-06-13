@@ -1,11 +1,93 @@
-[![Work in MakeCode](https://classroom.github.com/assets/work-in-make-code-46eb539bcdc54ff4682c9f84a178d570a59fd821693cb33b02a3e5220eed4e48.svg)](https://classroom.github.com/online_ide?assignment_repo_id=15259771&assignment_repo_type=AssignmentRepo)
+# Aries Financial Challenge - Stefan Rush
 
+## Solution
 
-## Objective
+### Setup Instructions
+
+1. Ensure your system has `go`, `make`, `docker`, and `docker-compose` installed. The docker dependencies are optional and only used to run a KeyDB (Redis) database to store the analysis results.
+
+2. Clone the repository and navigate to the root directory.
+
+3. Install the dependencies using the following command:
+
+    ```bash
+    make update
+    ```
+
+4. Start the KeyDB database using the following command (optional):
+
+    ```bash
+    docker-compose up -d
+    ```
+
+    This will start a KeyDB database running on `localhost:6379`
+
+5. Start the server using the following command:
+
+    ```bash
+    make run
+    ```
+
+    This will start the server on `localhost:8080`
+
+6. You should now be able to access the following endpoints on `localhost:8080`:
+
+    - `POST /analysis`: Used to submit any number of options contracts for analysis
+
+        - The request body should use the following format:
+
+            ```json
+            [
+                 {
+                    "type": "call",
+                    "long_short": "long",
+                    "strike_price": 100,
+                    "expiration_date": "2025-12-17T00:00:00Z",
+                    "bid": 10.05,
+                    "ask": 12.04
+                },
+                 {
+                    "type": "put",
+                    "long_short": "short",
+                    "strike_price": 100,
+                    "expiration_date": "2025-12-17T00:00:00Z",
+                    "bid": 10.05,
+                    "ask": 12.04
+                }
+            ]
+            ```
+
+        - The response with contain the analysis results along with an ID for retrieving the results later from the KeyDB database
+
+    - `GET /analysis/{contract_id}`: Used to retrieve the analysis results for a given contract ID (`{contract_id}` should be replaced with an ID returned from `POST /analysis`)
+
+        - Note that this endpoint will only work if the KeyDB database is running
+
+    - `GET /analysis/{contract_id}/graph`: Used to render a line graph of the analysis results for a given contract ID (`{contract_id}` should be replaced with an ID returned from `POST /analysis`)
+
+        - Note that this endpoint will only work if the KeyDB database is running
+
+7. Run the tests using the following command:
+
+    ```bash
+    make test
+    ```
+
+### Extra Development Commands
+
+- `make tools`: Install the development tools
+- `make dev`: Start the server in development mode (hot-reloading)
+- `make build`: Build the server binary
+- `make clean`: Remove the server binary
+- `make fmt`: Format the code
+
+## Original Problem Statement
+
+### Objective
 
 Design and implement a backend service for options contracts risk and reward analysis using GoLang.
 
-## Brief
+### Brief
 
 Aries Financial is looking for a Lead GoLang Developer that can create a backend service to generate a risk & reward graph for options contracts. The service should accept an input of up to four options contracts and output X & Y values for a risk & reward graph where X is the price of the underlying at the time of expiry and Y is the profit/loss at that price. It should also return the following: max profit, max loss, and all break even points.
 
@@ -39,7 +121,7 @@ Here are the tasks you need to accomplish:
 - Structure and organization of the code.
 - Quality of the tests and coverage of the code.
 
-### CodeSubmit 
+### CodeSubmit
 
 Please organize, design, test, and document your code as if it were
 going into production - then push your changes to the master branch.
@@ -47,4 +129,3 @@ going into production - then push your changes to the master branch.
 Have fun coding! 🚀
 
 The Aries Financial Team
-
