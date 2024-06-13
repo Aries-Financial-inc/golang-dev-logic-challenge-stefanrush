@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -10,6 +11,8 @@ import (
 	"github.com/Aries-Financial-inc/golang-dev-logic-challenge-stefanrush/server/helpers"
 	"github.com/Aries-Financial-inc/golang-dev-logic-challenge-stefanrush/server/models"
 )
+
+const maxContracts = 4
 
 // OnPOSTAnalysis accepts an array of options contracts and returns the processed contracts
 // that include the analysis results
@@ -21,6 +24,18 @@ func OnPOSTAnalysis(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(&contracts); err != nil {
 		log.Printf("Error parsing contracts from request body JSON: %v\n", err)
 		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if len(contracts) > maxContracts {
+		msg := fmt.Sprintf(
+			"Too many contracts: %v allowed, %v given\n",
+			maxContracts,
+			len(contracts),
+		)
+		log.Print(msg)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(msg))
 		return
 	}
 
