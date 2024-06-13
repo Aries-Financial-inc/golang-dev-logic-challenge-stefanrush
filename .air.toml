@@ -1,0 +1,6 @@
+tmp_dir = "build"
+
+[build]
+cmd = "make"
+bin = "build/server"
+exclude_dir = ["build"]
